@@ -1,0 +1,1 @@
+Trying to connect react native app and wallet app with web3Auth package
