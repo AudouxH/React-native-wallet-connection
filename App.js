@@ -1,23 +1,21 @@
-import React from 'react';
+import React, { useRef, useState } from 'react';
 
-import {
-  SafeAreaView,
-  ScrollView,
-  StyleSheet,
-  Text,
-} from 'react-native';
+import ConnectedScreen from './src/screens/connectedScreen';
+import NotConnectedScreen from './src/screens/notConnectedScreen';
 
 const App = () => {
+  const actionSheetRef = useRef(null);
+  const [userAddress, setUserAddress] = useState("");
+
   return (
-    <SafeAreaView >
-      <ScrollView>
-        <Text>Wallet connection</Text>
-      </ScrollView>
-    </SafeAreaView>
+    (userAddress && userAddress.length > 0) ?
+      <ConnectedScreen
+        userAddress={userAddress} />
+      :
+      <NotConnectedScreen
+        actionSheetRef={actionSheetRef}
+        setUserAddress={setUserAddress} />
   );
 }
-
-const styles = StyleSheet.create({
-});
 
 export default App;
