@@ -10,7 +10,7 @@ const ConnectedScreen = ({ userAddress }) => {
 
     return (
         <SafeAreaView style={styles.container}>
-            <Text style={styles.title}>you are now connect !</Text>
+            <Text style={styles.title}>you are now connect with web3Auth !</Text>
             {userAddress ? <Text style={styles.subtitle}>With the address: {userAddress}</Text> : null}
         </SafeAreaView>
     );
