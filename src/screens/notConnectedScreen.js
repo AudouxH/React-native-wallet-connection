@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 
 import {
     SafeAreaView,
@@ -11,7 +11,37 @@ import {
 import IonIcons from 'react-native-vector-icons/Ionicons';
 import ActionSheetAddress from '../components/ActionSheetAddress';
 
+// list of packages needed for web3Modal
+import '@walletconnect/react-native-compat';
+import { useWeb3Modal, Web3Modal } from '@web3modal/react-native';
+import { providerMetadata, sessionParams } from '../constants/config';
+
 const NotConnectedScreen = ({ actionSheetRef, setUserAddress }) => {
+    const { isConnected, address, open, close, isOpen, provider } = useWeb3Modal();
+
+    useEffect(() => {
+        if (isConnected && address) {
+            setUserAddress(address);
+            isOpen ? close() : null;
+        } else {
+            console.log("isConnected:", isConnected);
+            console.log("address:", address);
+        }
+    }, [isConnected, address]);
+
+    useEffect(() => {
+        async function getClientId() {
+          if (provider && isConnected) {
+            const _clientId = await provider?.client?.core.crypto.getClientId();
+            console.log("client id", _clientId);
+            console.log("address in client id:", address);
+          } else {
+            console.log("isConnected:", isConnected);
+          }
+        }
+    
+        getClientId();
+      }, [isConnected, provider]);
 
     return (
         <SafeAreaView style={styles.container}>
@@ -19,9 +49,7 @@ const NotConnectedScreen = ({ actionSheetRef, setUserAddress }) => {
                 <IonIcons name="wallet-outline" size={100} color="#2081e2" />
                 <Text style={styles.title}>Your wallet is not connected</Text>
                 <Text style={styles.subtitle}>Connect to any supported Wallet connect to have access to your data</Text>
-                <TouchableOpacity onPress={() => {
-
-                }} style={styles.button}>
+                <TouchableOpacity onPress={open} style={styles.button}>
                     <Text style={styles.buttonText}>Connect wallet</Text>
                 </TouchableOpacity>
                 <TouchableOpacity onPress={() => {
@@ -34,7 +62,13 @@ const NotConnectedScreen = ({ actionSheetRef, setUserAddress }) => {
 
             <ActionSheetAddress
                 actionSheetRef={actionSheetRef}
-                setUserAddress={setUserAddress}/>
+                setUserAddress={setUserAddress} />
+
+            <Web3Modal
+                projectId={"5c0e3814df7c19b9f153337997c46e15"}
+                providerMetadata={providerMetadata}
+                sessionParams={sessionParams}
+            />
         </SafeAreaView>
     );
 }

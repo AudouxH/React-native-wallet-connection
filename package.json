@@ -18,7 +18,9 @@
     "react-native": "0.71.8",
     "react-native-actions-sheet": "^0.8.29",
     "react-native-vector-icons": "^9.2.0",
-    "react-native-get-random-values": "^1.8.0"
+    "react-native-get-random-values": "^1.8.0",
+    "react-native-modal": "^13.0.1",
+    "react-native-svg": "^13.8.0"
   },
   "devDependencies": {
     "@babel/core": "^7.20.0",
