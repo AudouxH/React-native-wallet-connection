@@ -6,12 +6,39 @@ import {
     Text,
     TouchableOpacity,
     View,
+    Linking
 } from 'react-native';
 
 import IonIcons from 'react-native-vector-icons/Ionicons';
 import ActionSheetAddress from '../components/ActionSheetAddress';
 
+// import for Metamask Connection
+import MetaMaskSDK from '@metamask/sdk';
+import BackgroundTimer from 'react-native-background-timer';
+
 const NotConnectedScreen = ({ actionSheetRef, setUserAddress }) => {
+
+    const MetamaskConnection = async () => {
+        try {
+            const MMSDK = new MetaMaskSDK({
+                openDeeplink: (link) => {
+                    Linking.openURL(link); // Use React Native Linking method or another way of opening deeplinks.
+                },
+                timer: BackgroundTimer, // To keep the dapp alive once it goes to background.
+                dappMetadata: {
+                    name: 'walletConnection', // The name of your dapp.
+                    url: 'https://walletConnection.com', // The URL of your website.
+                },
+            });
+
+            const ethereum = MMSDK.getProvider();
+            const accounts = await ethereum.request({ method: 'eth_requestAccounts' });
+            console.log('RESULT', accounts?.[0]);
+            setUserAddress(accounts?.[0]);
+        } catch (error) {
+            console.log(error);
+        }
+    }
 
     return (
         <SafeAreaView style={styles.container}>
@@ -19,9 +46,7 @@ const NotConnectedScreen = ({ actionSheetRef, setUserAddress }) => {
                 <IonIcons name="wallet-outline" size={100} color="#2081e2" />
                 <Text style={styles.title}>Your wallet is not connected</Text>
                 <Text style={styles.subtitle}>Connect to any supported Wallet connect to have access to your data</Text>
-                <TouchableOpacity onPress={() => {
-
-                }} style={styles.button}>
+                <TouchableOpacity onPress={MetamaskConnection} style={styles.button}>
                     <Text style={styles.buttonText}>Connect wallet</Text>
                 </TouchableOpacity>
                 <TouchableOpacity onPress={() => {
@@ -34,7 +59,7 @@ const NotConnectedScreen = ({ actionSheetRef, setUserAddress }) => {
 
             <ActionSheetAddress
                 actionSheetRef={actionSheetRef}
-                setUserAddress={setUserAddress}/>
+                setUserAddress={setUserAddress} />
         </SafeAreaView>
     );
 }
