@@ -75,7 +75,6 @@ const ActionSheetAddress = ({ actionSheetRef, setUserAddress }) => {
 const styles = StyleSheet.create({
     actionSheetView: {
         width: '100%',
-        height: '80%',
         display: 'flex',
         flexDirection: 'column',
         justifyContent: 'flex-start',
