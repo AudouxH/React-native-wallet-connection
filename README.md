@@ -1,5 +1,7 @@
 # React-native-wallet-connection
-Personal Project: React native application which can connect to a mobile wallet app like Metamask or Coinbase wallet.
+Personal Project: React native application which can connect to a mobile wallet app like Metamask or many other.
+
+<figure><img src="https://github.com/AudouxH/React-native-wallet-connection/assets/52534710/18aefe5d-3ccc-4ff0-99db-b164ea1d2bc6" alt="" width="400"></figure>
 
 #### Go to `feature/MetamaskSdk` and see how i tried to get the public wallet address of the user from the Metamask app using the package @metamask/sdk
 https://docs.metamask.io/wallet/how-to/use-sdk/javascript/react-native/
