@@ -5,7 +5,7 @@ Personal Project: React native application which can connect to a mobile wallet 
 https://docs.metamask.io/wallet/how-to/use-sdk/javascript/react-native/
 
 #### Go to `feature/walletConnect` and see how i tried to get the public wallet address of the user from differents wallet app using the package @walletconnect/react-native-dapp
-https://docs.walletconnect.com/1.0/quick-start/dapps/react-native
+https://docs.walletconnect.com/2.0/reactnative/web3modal/installation
 
-#### Go to `feature/web3Auth` and see how i tried to get the public wallet address of the user from differents wallet app using the package @web3auth/react-native-sdk
+#### (Not done yet) Go to `feature/web3Auth` and see how i tried to get the public wallet address of the user from differents wallet app using the package @web3auth/react-native-sdk
 https://web3auth.io/docs/sdk/pnp/react-native/
