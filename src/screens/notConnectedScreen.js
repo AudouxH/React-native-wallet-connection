@@ -47,29 +47,29 @@ const NotConnectedScreen = ({ actionSheetRef, setUserAddress }) => {
         setUserAddress(accounts?.[0]);
     }
 
-    // useEffect(() => {
-    //     if (isConnected && address) {
-    //         setUserAddress(address);
-    //         isOpen ? close() : null;
-    //     } else {
-    //         console.log("isConnected:", isConnected);
-    //         console.log("address:", address);
-    //     }
-    // }, [isConnected, address]);
+    useEffect(() => {
+        if (isConnected && address) {
+            setUserAddress(address);
+            isOpen ? close() : null;
+        } else {
+            console.log("isConnected:", isConnected);
+            console.log("address:", address);
+        }
+    }, [isConnected, address]);
 
-    // useEffect(() => {
-    //     async function getClientId() {
-    //         if (provider && isConnected) {
-    //             const _clientId = await provider?.client?.core.crypto.getClientId();
-    //             console.log("client id", _clientId);
-    //             console.log("address in client id:", address);
-    //         } else {
-    //             console.log("isConnected:", isConnected);
-    //         }
-    //     }
+    useEffect(() => {
+        async function getClientId() {
+            if (provider && isConnected) {
+                const _clientId = await provider?.client?.core.crypto.getClientId();
+                console.log("client id", _clientId);
+                console.log("address in client id:", address);
+            } else {
+                console.log("isConnected:", isConnected);
+            }
+        }
 
-    //     getClientId();
-    // }, [isConnected, provider]);
+        getClientId();
+    }, [isConnected, provider]);
 
     return (
         <SafeAreaView style={styles.container}>
@@ -79,11 +79,11 @@ const NotConnectedScreen = ({ actionSheetRef, setUserAddress }) => {
                 <Text style={styles.subtitle}>Connect to any supported Wallet connect to have access to your data</Text>
                 <View style={styles.buttonContainer}>
                     <TouchableOpacity onPress={connectWithMetamask} style={styles.button}>
-                        <Image source={logoMetamask} style={styles.buttonLogo}/>
+                        <Image source={logoMetamask} style={styles.buttonLogo} />
                         <Text style={styles.buttonText}>Connect with Metamask</Text>
                     </TouchableOpacity>
                     <TouchableOpacity onPress={open} style={styles.button}>
-                        <Image source={logoWalletConnect} style={styles.buttonLogo}/>
+                        <Image source={logoWalletConnect} style={styles.buttonLogo} />
                         <Text style={styles.buttonText}>Connect with WalletConnect</Text>
                     </TouchableOpacity>
                 </View>
