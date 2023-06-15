@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 
 import {
     Image,
@@ -47,29 +47,29 @@ const NotConnectedScreen = ({ actionSheetRef, setUserAddress }) => {
         setUserAddress(accounts?.[0]);
     }
 
-    useEffect(() => {
-        if (isConnected && address) {
-            setUserAddress(address);
-            isOpen ? close() : null;
-        } else {
-            console.log("isConnected:", isConnected);
-            console.log("address:", address);
-        }
-    }, [isConnected, address]);
+    // useEffect(() => {
+    //     if (isConnected && address) {
+    //         setUserAddress(address);
+    //         isOpen ? close() : null;
+    //     } else {
+    //         console.log("isConnected:", isConnected);
+    //         console.log("address:", address);
+    //     }
+    // }, [isConnected, address]);
 
-    useEffect(() => {
-        async function getClientId() {
-            if (provider && isConnected) {
-                const _clientId = await provider?.client?.core.crypto.getClientId();
-                console.log("client id", _clientId);
-                console.log("address in client id:", address);
-            } else {
-                console.log("isConnected:", isConnected);
-            }
-        }
+    // useEffect(() => {
+    //     async function getClientId() {
+    //         if (provider && isConnected) {
+    //             const _clientId = await provider?.client?.core.crypto.getClientId();
+    //             console.log("client id", _clientId);
+    //             console.log("address in client id:", address);
+    //         } else {
+    //             console.log("isConnected:", isConnected);
+    //         }
+    //     }
 
-        getClientId();
-    }, [isConnected, provider]);
+    //     getClientId();
+    // }, [isConnected, provider]);
 
     return (
         <SafeAreaView style={styles.container}>
