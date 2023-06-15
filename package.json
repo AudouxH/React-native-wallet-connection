@@ -10,7 +10,7 @@
     "test": "jest"
   },
   "dependencies": {
-    "@react-native-async-storage/async-storage": "^1.17.11",
+    "@react-native-async-storage/async-storage": "^1.18.2",
     "@walletconnect/encoding": "1.0.2",
     "@walletconnect/react-native-compat": "^2.7.7",
     "@web3modal/react-native": "1.0.0-alpha.5",
