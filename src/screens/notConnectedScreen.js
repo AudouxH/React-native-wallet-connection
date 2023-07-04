@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 
 import {
     Image,
@@ -14,37 +14,54 @@ import IonIcons from 'react-native-vector-icons/Ionicons';
 import ActionSheetAddress from '../components/ActionSheetAddress';
 
 // logo imports
-import logoMetamask from '../assets/metamask-logo.png';
 import logoWalletConnect from '../assets/walletconnect-logo.png';
-
-// list of packages needed for @metamask/sdk
-import MetaMaskSDK from '@metamask/sdk';
-import BackgroundTimer from 'react-native-background-timer';
 
 // list of packages needed for web3Modal
 import '@walletconnect/react-native-compat';
+
+import { Core } from '@walletconnect/core';
+import { Web3Wallet } from '@walletconnect/web3wallet';
+import { getSdkError } from '@walletconnect/utils';
+
 import { useWeb3Modal, Web3Modal } from '@web3modal/react-native';
 import { providerMetadata, sessionParams } from '../constants/config';
 
 const NotConnectedScreen = ({ actionSheetRef, setUserAddress }) => {
     const { isConnected, address, open, close, isOpen, provider } = useWeb3Modal();
+    const [wcuri, setWCUri] = useState("");
 
-    const connectWithMetamask = async () => {
-        const MMSDK = new MetaMaskSDK({
-            openDeeplink: (link) => {
-                Linking.openURL(link);
-            },
-            timer: BackgroundTimer,
-            dappMetadata: {
-                name: 'walletConnection',
-                url: 'https://walletConnection.com',
-            },
+    const core = new Core({
+        projectId: "5c0e3814df7c19b9f153337997c46e15"
+    })
+
+    const pair = async (uri) => {
+        return await core.pairing.pair({ uri: uri })
+    }
+
+    const createWeb3Wallet = async () => {
+        const web3wallet = await Web3Wallet.init({
+            core,
+            metadata: providerMetadata,
+        })
+
+        // Approval: Using this listener for sessionProposal, you can accept the session
+        web3wallet.on("session_proposal", async (proposal) => {
+            const session = await web3wallet.approveSession({
+                id: proposal.id,
+                namespaces,
+            });
         });
 
-        const ethereum = MMSDK.getProvider();
-        const accounts = await ethereum.request({ method: 'eth_requestAccounts' });
-        console.log('RESULT', accounts?.[0]);
-        setUserAddress(accounts?.[0]);
+        // Reject: Using this listener for sessionProposal, you can reject the session
+        web3wallet.on("session_proposal", async (proposal) => {
+            const session = await web3wallet.rejectSession({
+                id: proposal.id,
+                reason: getSdkError("USER_REJECTED_METHODS"),
+            });
+        });
+
+        // Call this after WCURI is received
+        await web3wallet.core.pairing.pair({ wcuri });
     }
 
     // useEffect(() => {
@@ -56,20 +73,6 @@ const NotConnectedScreen = ({ actionSheetRef, setUserAddress }) => {
     //         console.log("address:", address);
     //     }
     // }, [isConnected, address]);
-
-    // useEffect(() => {
-    //     async function getClientId() {
-    //         if (provider && isConnected) {
-    //             const _clientId = await provider?.client?.core.crypto.getClientId();
-    //             console.log("client id", _clientId);
-    //             console.log("address in client id:", address);
-    //         } else {
-    //             console.log("isConnected:", isConnected);
-    //         }
-    //     }
-
-    //     getClientId();
-    // }, [isConnected, provider]);
 
     return (
         <SafeAreaView style={styles.container}>
